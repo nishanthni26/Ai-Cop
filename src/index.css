@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cyber-blue: #00d4ff;
+  --cyber-red: #ff2d55;
+  --cyber-green: #00ff88;
+  --cyber-dark: #0a0a0f;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--cyber-blue) var(--cyber-dark);
+}
+
+@layer base {
+  body {
+    @apply bg-cyber-dark text-white font-mono;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl;
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300 hover:bg-white/10 hover:border-cyber-blue/50 hover:shadow-neon-blue;
+  }
+
+  .neon-text {
+    @apply text-cyber-blue;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.8), 0 0 20px rgba(0, 212, 255, 0.5);
+  }
+
+  .neon-text-red {
+    @apply text-cyber-red;
+    text-shadow: 0 0 10px rgba(255, 45, 85, 0.8), 0 0 20px rgba(255, 45, 85, 0.5);
+  }
+
+  .btn-cyber {
+    @apply relative px-6 py-3 font-display font-semibold uppercase tracking-wider transition-all duration-300;
+    @apply bg-gradient-to-r from-cyber-blue/20 to-cyber-blue/5 border border-cyber-blue rounded-lg;
+    @apply hover:from-cyber-blue/30 hover:to-cyber-blue/10 hover:shadow-neon-blue;
+  }
+
+  .btn-cyber-danger {
+    @apply relative px-6 py-3 font-display font-semibold uppercase tracking-wider transition-all duration-300;
+    @apply bg-gradient-to-r from-cyber-red/20 to-cyber-red/5 border border-cyber-red rounded-lg;
+    @apply hover:from-cyber-red/30 hover:to-cyber-red/10 hover:shadow-neon-red;
+  }
+
+  .hud-corner { @apply absolute w-6 h-6; }
+  .hud-corner-tl { @apply top-0 left-0 border-t-2 border-l-2 border-cyber-blue; }
+  .hud-corner-tr { @apply top-0 right-0 border-t-2 border-r-2 border-cyber-blue; }
+  .hud-corner-bl { @apply bottom-0 left-0 border-b-2 border-l-2 border-cyber-blue; }
+  .hud-corner-br { @apply bottom-0 right-0 border-b-2 border-r-2 border-cyber-blue; }
+
+  .cyber-grid {
+    background-image: linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+}
+
+@layer utilities {
+  .shadow-neon-blue { box-shadow: 0 0 20px rgba(0, 212, 255, 0.4), 0 0 40px rgba(0, 212, 255, 0.2); }
+  .shadow-neon-red { box-shadow: 0 0 20px rgba(255, 45, 85, 0.4), 0 0 40px rgba(255, 45, 85, 0.2); }
+  .shadow-neon-green { box-shadow: 0 0 20px rgba(0, 255, 136, 0.4), 0 0 40px rgba(0, 255, 136, 0.2); }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-cyber-blue via-cyber-green to-cyber-blue;
+    background-size: 200% auto;
+    animation: gradient-shift 3s ease infinite;
+  }
+
+  @keyframes gradient-shift {
+    0% { background-position: 0% center; }
+    50% { background-position: 100% center; }
+    100% { background-position: 0% center; }
+  }
+}
+
+.progress-bar { @apply h-2 bg-cyber-dark rounded-full overflow-hidden; }
+.progress-bar-fill { @apply h-full bg-gradient-to-r from-cyber-blue to-cyber-green transition-all duration-300; box-shadow: 0 0 10px rgba(0, 212, 255, 0.5); }
