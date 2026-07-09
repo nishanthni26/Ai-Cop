@@ -1,0 +1,12 @@
+{
+  "name": "ai-cop",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix services/frontend run build",
+    "railway:build": "npm --prefix services/frontend ci && npm --prefix services/frontend run build",
+    "start": "npm --prefix services/frontend start"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
