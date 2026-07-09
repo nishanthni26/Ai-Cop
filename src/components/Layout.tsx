@@ -1,18 +1,21 @@
 import { ReactNode, useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Scan, LayoutDashboard, FileText, CreditCard, Info, Mail, Menu, X, Bot } from 'lucide-react';
+import { Shield, Scan, LayoutDashboard, FileText, CreditCard, Info, Mail, Menu, X, Bot, LogOut, UserPlus } from 'lucide-react';
 import InspectorAI from './InspectorAI';
+import { getCurrentUser, logout, LocalUser } from '../lib/localStore';
 
 interface LayoutProps { children: ReactNode }
 
 const navItems = [
   { path: '/', label: 'Home', icon: Shield },
   { path: '/scanner', label: 'AI Scanner', icon: Scan },
-  { path: '/ocr', label: 'OCR', icon: FileText },
-  { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { path: '/reports', label: 'Reports', icon: FileText },
+  { path: '/dashboard', label: 'My Activity', icon: LayoutDashboard },
+  { path: '/reports', label: 'History', icon: FileText },
   { path: '/pricing', label: 'Pricing', icon: CreditCard },
+];
+
+const companyLinks = [
   { path: '/about', label: 'About', icon: Info },
   { path: '/contact', label: 'Contact', icon: Mail },
 ];
@@ -21,6 +24,7 @@ export default function Layout({ children }: LayoutProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAIOpen, setIsAIOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [user, setUser] = useState<LocalUser | null>(() => getCurrentUser());
   const location = useLocation();
 
   useEffect(() => {
@@ -29,7 +33,19 @@ export default function Layout({ children }: LayoutProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const visibleNavItems = navItems.filter((item) => user || !['/reports', '/dashboard'].includes(item.path));
+
   useEffect(() => { setIsMenuOpen(false); }, [location]);
+
+  useEffect(() => {
+    const syncUser = () => setUser(getCurrentUser());
+    window.addEventListener('authchange', syncUser);
+    window.addEventListener('storage', syncUser);
+    return () => {
+      window.removeEventListener('authchange', syncUser);
+      window.removeEventListener('storage', syncUser);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-cyber-dark relative overflow-hidden">
@@ -44,7 +60,7 @@ export default function Layout({ children }: LayoutProps) {
               <span className="font-display font-bold text-xl tracking-wider neon-text hidden sm:block">AI POLICE</span>
             </Link>
             <div className="hidden lg:flex items-center gap-1">
-              {navItems.map((item) => {
+              {visibleNavItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = location.pathname === item.path;
                 return (
@@ -58,6 +74,20 @@ export default function Layout({ children }: LayoutProps) {
               })}
             </div>
             <div className="flex items-center gap-4">
+              {user ? (
+                <div className="hidden md:flex items-center gap-3">
+                  <span className="max-w-[120px] truncate text-sm text-gray-300">{user.name}</span>
+                  <button onClick={logout} className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-gray-300 hover:border-cyber-blue hover:text-cyber-blue">
+                    <LogOut className="h-4 w-4" />
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <Link to="/login" className="hidden md:flex items-center gap-2 rounded-lg border border-cyber-blue/40 bg-cyber-blue/10 px-3 py-2 text-sm text-cyber-blue hover:bg-cyber-blue/20">
+                  <UserPlus className="h-4 w-4" />
+                  Login
+                </Link>
+              )}
               <motion.button onClick={() => setIsAIOpen(!isAIOpen)} className={`p-2 rounded-lg transition-all ${isAIOpen ? 'bg-cyber-green/20 border border-cyber-green' : 'bg-white/5 border border-white/10'}`} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Bot className={`w-5 h-5 ${isAIOpen ? 'neon-text-green' : 'text-gray-400'}`} />
               </motion.button>
@@ -71,7 +101,7 @@ export default function Layout({ children }: LayoutProps) {
           {isMenuOpen && (
             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="lg:hidden border-t border-cyber-blue/20 bg-cyber-darker/95 backdrop-blur-xl">
               <div className="px-4 py-4 space-y-2">
-                {navItems.map((item) => {
+                {visibleNavItems.map((item) => {
                   const Icon = item.icon;
                   const isActive = location.pathname === item.path;
                   return (
@@ -83,6 +113,19 @@ export default function Layout({ children }: LayoutProps) {
                     </Link>
                   );
                 })}
+                {user ? (
+                  <button onClick={logout} className="flex w-full items-center gap-3 rounded-lg bg-white/5 px-4 py-3 text-gray-300">
+                    <LogOut className="h-5 w-5 text-gray-400" />
+                    Logout {user.name}
+                  </button>
+                ) : (
+                  <Link to="/login">
+                    <div className="flex items-center gap-3 rounded-lg border border-cyber-blue/40 bg-cyber-blue/10 px-4 py-3 text-cyber-blue">
+                      <UserPlus className="h-5 w-5" />
+                      Login / Sign Up
+                    </div>
+                  </Link>
+                )}
               </div>
             </motion.div>
           )}
@@ -103,7 +146,7 @@ export default function Layout({ children }: LayoutProps) {
             <div>
               <h4 className="font-display font-semibold text-cyber-blue mb-4">Platform</h4>
               <ul className="space-y-2">
-                {navItems.slice(0, 5).map((item) => (
+                {navItems.map((item) => (
                   <li key={item.path}><Link to={item.path} className="text-gray-400 hover:text-cyber-blue transition-colors text-sm">{item.label}</Link></li>
                 ))}
               </ul>
@@ -111,7 +154,7 @@ export default function Layout({ children }: LayoutProps) {
             <div>
               <h4 className="font-display font-semibold text-cyber-blue mb-4">Company</h4>
               <ul className="space-y-2">
-                {navItems.slice(5).map((item) => (
+                {companyLinks.map((item) => (
                   <li key={item.path}><Link to={item.path} className="text-gray-400 hover:text-cyber-blue transition-colors text-sm">{item.label}</Link></li>
                 ))}
               </ul>
@@ -126,7 +169,10 @@ export default function Layout({ children }: LayoutProps) {
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-gray-500 text-sm">© 2026 AI Police. All rights reserved. Protecting digital truth.</p>
+            <div className="flex flex-col gap-2">
+              <p className="text-gray-500 text-sm">© 2026 AI Police. All rights reserved. Protecting digital truth.</p>
+              <p className="text-gray-600 text-xs">Created by Nishanth | NP Property</p>
+            </div>
             <div className="flex items-center gap-2 text-cyber-green">
               <div className="w-2 h-2 rounded-full bg-cyber-green animate-pulse" />
               <span className="text-sm font-mono">System Online</span>

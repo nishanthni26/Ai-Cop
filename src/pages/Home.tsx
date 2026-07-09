@@ -3,37 +3,33 @@ import { Link } from 'react-router-dom';
 import {
   Shield,
   Scan,
-  Video,
   Image,
   FileText,
-  Mic,
   FileCheck,
   AlertTriangle,
-  MessageSquare,
   ArrowRight,
-  Users,
-  Globe,
+  Video,
+  Mic,
+  MessageSquare,
+  Search,
   Cpu,
-  Eye,
   Zap,
 } from 'lucide-react';
 
 const features = [
-  { icon: Video, title: 'Deepfake Detection', description: 'Advanced neural networks detect AI-manipulated videos with frame-level precision.', color: 'cyber-blue' },
-  { icon: FileText, title: 'AI Text Analyzer', description: 'Identify AI-written content using linguistic patterns and perplexity analysis.', color: 'cyber-green' },
-  { icon: Mic, title: 'Voice Clone Detector', description: 'Detect synthetic voices and audio deepfakes with spectral analysis.', color: 'cyber-red' },
-  { icon: Image, title: 'Fake Image Scanner', description: 'Uncover GAN-generated images and manipulated photos instantly.', color: 'cyber-blue' },
-  { icon: FileCheck, title: 'Document Verification', description: 'Verify document authenticity and detect forged signatures or edits.', color: 'cyber-green' },
-  { icon: AlertTriangle, title: 'Scam Detection', description: 'Identify phishing attempts, fraud content, and social engineering tactics.', color: 'cyber-red' },
-  { icon: MessageSquare, title: 'Social Media Analysis', description: 'Analyze posts for bot activity and coordinated disinformation campaigns.', color: 'cyber-blue' },
-  { icon: Shield, title: 'Threat Intelligence', description: 'Real-time monitoring of emerging AI-generated threat patterns.', color: 'cyber-green' },
+  { icon: Image, title: 'AI Image Scanner', description: 'Upload an image and get an AI-generation signal with an authenticity percentage.', color: 'cyber-blue' },
+  { icon: FileText, title: 'OCR Investigation', description: 'Extract text from screenshots, document images, and PDFs with a review-friendly result panel.', color: 'cyber-green' },
+  { icon: FileCheck, title: 'Saved History', description: 'Login to save scan thumbnails, scores, risk labels, and image insights.', color: 'cyber-blue' },
+  { icon: AlertTriangle, title: 'Risk Labeling', description: 'Results are grouped as low, medium, high, or critical signal for quick review.', color: 'cyber-red' },
 ];
 
-const stats = [
-  { label: 'Scans Completed', value: '2.5M+', icon: Scan, color: 'cyber-blue' },
-  { label: 'Threats Detected', value: '850K+', icon: AlertTriangle, color: 'cyber-red' },
-  { label: 'Active Users', value: '100K+', icon: Users, color: 'cyber-green' },
-  { label: 'Countries Protected', value: '150+', icon: Globe, color: 'cyber-blue' },
+const comingSoonFeatures = [
+  { icon: Video, title: 'Video Deepfake Detection', description: 'Frame-by-frame analysis for manipulated videos and face swaps.' },
+  { icon: Mic, title: 'Voice Clone Detection', description: 'Audio screening for synthetic speech and voice impersonation.' },
+  { icon: MessageSquare, title: 'AI Text Detector', description: 'Checks posts, emails, and messages for AI-written patterns.' },
+  { icon: Search, title: 'Metadata Analysis', description: 'EXIF, compression, and source checks to support scan results.' },
+  { icon: AlertTriangle, title: 'Scam Link Detection', description: 'Flags suspicious URLs, phishing pages, and fraud indicators.' },
+  { icon: Cpu, title: 'Multi-Model Verification', description: 'Compares results across multiple detectors before showing high confidence.' },
 ];
 
 export default function Home() {
@@ -71,39 +67,18 @@ export default function Home() {
                   Start Investigation
                 </motion.button>
               </Link>
-              <Link to="/scanner">
-                <motion.button className="btn-cyber-danger text-lg" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Eye className="w-5 h-5 inline mr-2" />
-                  Scan Content
-                </motion.button>
-              </Link>
             </div>
           </motion.div>
         </div>
         <motion.div className="absolute top-0 left-0 right-0 h-32" animate={{ background: ['linear-gradient(to bottom, rgba(255, 45, 85, 0.15), transparent)', 'linear-gradient(to bottom, rgba(0, 212, 255, 0.15), transparent)', 'linear-gradient(to bottom, rgba(255, 45, 85, 0.15), transparent)'] }} transition={{ duration: 1.5, repeat: Infinity }} />
       </section>
 
-      {/* Stats Section */}
-      <section className="relative z-20 py-20 border-y border-white/10">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {stats.map((stat, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="glass-card p-6 text-center group hover:shadow-neon-blue transition-all">
-                <stat.icon className={`w-8 h-8 mx-auto mb-3 text-${stat.color}`} />
-                <div className="font-display font-bold text-3xl text-white mb-1">{stat.value}</div>
-                <div className="text-gray-400 text-sm">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Features Section */}
       <section className="relative z-20 py-20">
         <div className="max-w-7xl mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-            <h2 className="font-display font-bold text-4xl lg:text-5xl neon-text mb-4">Advanced Detection Arsenal</h2>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">State-of-the-art AI forensic tools to combat the rising threat of AI-generated misinformation.</p>
+            <h2 className="font-display font-bold text-4xl lg:text-5xl neon-text mb-4">What You Can Do</h2>
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto">Use focused tools for image AI-signal detection, OCR extraction, and saved review history.</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((feature, i) => (
@@ -129,6 +104,33 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="relative z-20 border-y border-white/10 bg-white/[0.03] py-20">
+        <div className="max-w-7xl mx-auto px-4">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
+            <h2 className="font-display font-bold text-4xl lg:text-5xl neon-text mb-4">Recommended Next Features</h2>
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto">These tools are planned additions and are marked clearly as coming soon.</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {comingSoonFeatures.map((feature, index) => {
+              const Icon = feature.icon;
+              return (
+                <motion.div key={feature.title} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.06 }} className="glass-card p-6">
+                  <div className="mb-4 flex items-center justify-between gap-4">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-cyber-blue/10 text-cyber-blue">
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <span className="rounded-full border border-yellow-400/30 bg-yellow-400/10 px-3 py-1 text-xs font-semibold text-yellow-300">Coming Soon</span>
+                  </div>
+                  <h3 className="text-lg font-semibold text-white">{feature.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-gray-400">{feature.description}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* How It Works Section */}
       <section className="relative z-20 py-20 bg-white/5">
         <div className="max-w-7xl mx-auto px-4">
@@ -138,9 +140,9 @@ export default function Home() {
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { step: '01', title: 'Upload Content', description: 'Drag and drop any media file - image, video, audio, document, or text.', icon: Zap },
-              { step: '02', title: 'AI Analysis', description: 'Our neural networks scan for deepfake artifacts, GAN fingerprints, and manipulation patterns.', icon: Cpu },
-              { step: '03', title: 'Get Results', description: 'Receive detailed forensic report with authenticity scores, threat levels, and evidence timeline.', icon: FileCheck },
+              { step: '01', title: 'Login', description: 'Create an account so scans can be saved to your personal history.', icon: Shield },
+              { step: '02', title: 'Upload Image or Document', description: 'Use AI Scanner for image checks or OCR for text extraction.', icon: Zap },
+              { step: '03', title: 'Review Results', description: 'See AI signal, authenticity, risk level, image insight, and saved history.', icon: FileCheck },
             ].map((item, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.2 }} className="relative p-8 glass-card text-center border-t-2 border-cyber-blue">
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 font-display font-bold text-2xl neon-text">{item.step}</div>

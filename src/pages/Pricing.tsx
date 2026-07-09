@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, X, Shield, Zap, Building2, Scan, Lock, FileText, Globe, Headphones } from 'lucide-react';
+import { Check, X, Shield, Scan, Building2 } from 'lucide-react';
 
 const plans = [
   { name: 'Free Scan', price: 0, description: 'Basic AI content detection for personal use', icon: Scan, color: 'cyber-blue', features: [{ name: '5 scans per month', included: true }, { name: 'Image analysis', included: true }, { name: 'Video analysis', included: false }] },

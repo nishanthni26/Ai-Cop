@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, Shield, Clock, Building2, Headphones, Globe, CheckCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Clock, CheckCircle } from 'lucide-react';
 
 const contactMethods = [
   { icon: Mail, label: 'Email', value: 'contact@aipolice.com', color: 'cyber-blue' },
