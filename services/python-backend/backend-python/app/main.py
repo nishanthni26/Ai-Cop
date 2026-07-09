@@ -25,7 +25,7 @@ DEFAULT_HF_MODEL_ID = "capcheck/ai-image-detection"
 HF_MODEL_ID = os.getenv("HF_DEEPFAKE_MODEL_ID", DEFAULT_HF_MODEL_ID)
 HF_MODEL_WEIGHT = float(os.getenv("HF_DEEPFAKE_MODEL_WEIGHT", "0.65"))
 IMAGE_CAPTION_MODEL_ID = os.getenv("HF_IMAGE_CAPTION_MODEL_ID", "Salesforce/blip-image-captioning-base")
-ENABLE_IMAGE_INSIGHTS = os.getenv("ENABLE_IMAGE_INSIGHTS", "true").lower() == "true"
+ENABLE_IMAGE_INSIGHTS = os.getenv("ENABLE_IMAGE_INSIGHTS", "false").lower() == "true"
 
 app.add_middleware(
     CORSMiddleware,
